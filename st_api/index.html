@@ -1,0 +1,1160 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Bose SoundTouch API Reference</title>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+    <style>
+      	.highlight table td { padding: 5px; }
+		.highlight table pre { margin: 0; }
+		.highlight, .highlight .w {
+		  color: #f8f8f2;
+		  background-color: #272822;
+		}
+		.highlight .err {
+		  color: #151515;
+		  background-color: #ac4142;
+		}
+		.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+		  color: #505050;
+		}
+		.highlight .cp {
+		  color: #f4bf75;
+		}
+		.highlight .nt {
+		  color: #f4bf75;
+		}
+		.highlight .o, .highlight .ow {
+		  color: #d0d0d0;
+		}
+		.highlight .p, .highlight .pi {
+		  color: #d0d0d0;
+		}
+		.highlight .gi {
+		  color: #90a959;
+		}
+		.highlight .gd {
+		  color: #ac4142;
+		}
+		.highlight .gh {
+		  color: #6a9fb5;
+		  background-color: #151515;
+		  font-weight: bold;
+		}
+		.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+		  color: #aa759f;
+		}
+		.highlight .kc {
+		  color: #d28445;
+		}
+		.highlight .kt {
+		  color: #d28445;
+		}
+		.highlight .kd {
+		  color: #d28445;
+		}
+		.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+		  color: #90a959;
+		}
+		.highlight .sr {
+		  color: #75b5aa;
+		}
+		.highlight .si {
+		  color: #8f5536;
+		}
+		.highlight .se {
+		  color: #8f5536;
+		}
+		.highlight .nn {
+		  color: #f4bf75;
+		}
+		.highlight .nc {
+		  color: #f4bf75;
+		}
+		.highlight .no {
+		  color: #f4bf75;
+		}
+		.highlight .na {
+		  color: #6a9fb5;
+		}
+		.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+		  color: #90a959;
+		}
+		.highlight .ss {
+		  color: #90a959;
+		}
+    </style>
+      <script src="javascripts/all.js"></script>
+  </head>
+
+	
+
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;]">
+  
+  <div style="right: 30px; position: fixed; z-index: 5000; opacity: 0.9;">
+            	<img src="images/bose.png" style="width:100px;" alt="Bose"/>
+            </div>
+  
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="shell">shell</a>
+              <a href="#" data-language-name="ruby">ruby</a>
+              <a href="#" data-language-name="python">javascript</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+ 
+            <li>Document Version 1.1.1</li>
+            <script language="Javascript">
+				document.write("<li><span style='color:#888;'>Last updated on " + document.lastModified +"</span></li>");
+			</SCRIPT>
+            
+            
+            
+            <!-- <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li> -->
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+      
+      
+      
+      
+      
+<h1 id="introduction">Introduction</h1>
+<pre class="highlight shell"><code>
+<span class="s2">Format</span>
+
+http://<span class="red">$IP_ADDR</span>:8090<span class="red">/$DIRECTORY</span>
+</code></pre>
+<p>These commands are the primary interface to command and control a Bose SoundTouch unit. They are sent over HTTP on port 8090 to the SoundTouch device you would like to connect to using the GET and POST methods.</p>
+<p>Each SoundTouch device runs its own web server and its that which you will be communicating with.</p>
+
+
+
+
+
+<h1 id="specialType">Special Types</h1>
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+
+
+
+<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
+</code></pre>
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
+</code></pre>
+<!--
+<pre class="highlight shell">
+	<code><span class="c"># With shell, you can just pass the correct header with each request</span>
+curl <span class="s2">"api_endpoint_here"</span>
+  -H <span class="s2">"Authorization: meowmeowmeow"</span>
+</code></pre>
+
+
+<blockquote>
+<p>Make sure to replace <code class="prettyprint">meowmeowmeow</code> with your API key.</p>
+</blockquote>-->
+
+<pre class="highlight json"><code><span class="p"><span class="red">ART_STATUS</span> {</span><span class="w">
+  </span><span class="p">INVALID</span><span class="w">
+  </span><span class="p">SHOW_DEFAULT_IMAGE</span><span class="w">
+  </span><span class="p">DOWNLOADING</span><span class="w">
+  </span><span class="p">IMAGE_PRESENT</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code>
+<code><span class="p"><span class="red">KEY_VALUE</span> {</span><span class="w">
+  </span><span class="p">PLAY</span><span class="w">
+  </span><span class="p">PAUSE</span><span class="w">
+  </span><span class="p">STOP</span><span class="w">
+  </span><span class="p">PREV_TRACK</span><span class="w">
+  </span><span class="p">NEXT_TRACK</span><span class="w">
+  </span><span class="p">THUMBS_UP</span><span class="w">
+  </span><span class="p">THUMBS_DOWN</span><span class="w">
+  </span><span class="p">BOOKMARK</span><span class="w">
+  </span><span class="p">POWER</span><span class="w">
+  </span><span class="p">MUTE</span><span class="w">
+  </span><span class="p">VOLUME_UP</span><span class="w">
+  </span><span class="p">VOLUME_DOWN</span><span class="w">
+  </span><span class="p">PRESET_1</span><span class="w">
+  </span><span class="p">PRESET_2</span><span class="w">
+  </span><span class="p">PRESET_3</span><span class="w">
+  </span><span class="p">PRESET_4</span><span class="w">
+  </span><span class="p">PRESET_5</span><span class="w">
+  </span><span class="p">PRESET_6</span><span class="w">
+  </span><span class="p">AUX_INPUT</span><span class="w">
+  </span><span class="p">SHUFFLE_ON</span><span class="w">
+  </span><span class="p">SHUFFLE_OFF</span><span class="w">
+  </span><span class="p">REPEAT_OFF</span><span class="w">
+  </span><span class="p">REPEAT_ONE</span><span class="w">
+  </span><span class="p">REPEAT_ALL</span><span class="w">
+  </span><span class="p">PLAY_PAUSE</span><span class="w">
+  </span><span class="p">ADD_FAVORITE</span><span class="w">
+  </span><span class="p">REMOVE_FAVORITE</span><span class="w">
+  </span><span class="p">INVALID_KEY</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code>
+<code><span class="p"><span class="red">KEY_STATE</span> {</span><span class="w">
+  </span><span class="p">press</span><span class="w">
+  </span><span class="p">release</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code>
+<code><span class="p"><span class="red">PLAY_STATUS</span> {</span><span class="w">
+  </span><span class="p">PLAY_STATE</span><span class="w">
+  </span><span class="p">PAUSE_STATE</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code>
+<code><span class="p"><span class="red">SOURCE_STATUS</span> {</span><span class="w">
+  </span><span class="p">UNAVAILABLE</span><span class="w">
+  </span><span class="p">READY</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<!-- The left side text -->
+
+<p>The Bose SoundTouch APIs have special types for use by the SoundTouch WSAPIs. </p>
+<table>
+	<thead>
+		<tr><th>Type</th><th>Description</th></tr>
+	</thead>
+	<tbody>
+		<tr><td>$MACADDR</td><td>A MAC address, uppercased, represented as a string (i.e. "EC24B89514AC")</td></tr>
+		<tr><td>$PRESET_ID</td><td>An integer, 1 through 6, inclusive</td></tr>
+		<tr><td>$STRING</td><td>any valid XML-escaped string</td></tr>
+		<tr><td>$INT</td><td>a 32-bit integer</td></tr>
+		<tr><td>$UINT</td><td>a 32-bit unsigned integer</td></tr>
+		<tr><td>$UINT64</td><td>A 64-bit unsigned integer</td></tr>
+		<tr><td>$URL</td><td>a URL, encoded as a string</td></tr>
+		<tr><td>$BOOL</td><td>"true" or "false"</td></tr>
+		<tr><td>$IPADDR</td><td>an IP address, represented as a string (i.e. "192.168.1.2")</td></tr>
+	</tbody>
+</table>
+
+<!--
+<p><code class="prettyprint">Authorization: meowmeowmeow</code></p>
+
+<aside class="notice">
+You must replace <code>meowmeowmeow</code> with your personal API key.
+</aside>
+-->
+
+<h1 id="api-methods-urls">⊞ API Methods/URLs</h1>
+
+<h2 id="key">/key</h2>
+<pre class="highlight shell"><code>
+<span class="s2">A jQuery example sending a preset key:</span>
+
+function presetKey(presetNumber) {
+    var postURL = "http://" + <span class="red">IP_ADDRESS_OF_SPEAKER</span> + ":8090";
+    var data = "&lt;key state='release' sender='Gabbo'&gt;PRESET_" + <span class="red">presetNumber</span> + "&lt;/key"&gt;;
+    $.ajax({
+    	url: postURL + <span class="red">"/key"</span>,
+    	type: 'POST',
+    	crossDomain: true,
+    	data: data,
+    	dataType: 'text',
+    	success: function(result){
+    		//Worked.
+    	},
+    	error: function(jqXHR, transStatus, errorThrown) {
+    		alert('Status: ' + jqXHR.status = ' ' + jqXHR.statusText + '.' +
+    			  'Response: ' + jqXHR.responseText);
+    	}
+    });
+}	    
+</code></pre>
+
+<p><span class="callout">POST</span></p>
+<p><code class="prettyprint">&lt;key state=<strong>"$KEY_STATE"</strong> sender=<strong>"$KEY_SENDER"</strong>&gt;<strong>$KEY_VALUE</strong>&lt;/key&gt;</code></p>
+<p>Keys are used as a simple means to interact with the SoundTouch speaker. For a full listing of supported keys, please see the list under KEY_VALUE. For $KEY_SENDER use "Gabbo" for now.</p>
+<p>Imagine that you are replicating actual key press and releases on the speaker's own hardware buttons or remote control.</p>
+<p>In general, it is good practice to send 2 discrete HTTP POST calls, the first being the "press" and the second being the "release". Doing so simulates both the press and release action of clicking a key. Possible values for $KEY_STATE are "press" and "release".</p>
+<p>NOTE: If you send a press to a preset without sending a release in time, you're actually setting the preset to whatever is currently playing. The behavior is the same as that of a physical button.</p>
+<aside class="warning">IMPORTANT: You need to POST an actual XML string to the server, not key-value pairings for any POSTs to the server. Otherwise your POST will fail.</aside>
+
+
+
+
+
+
+<h2 id="select">/select</h2>
+
+<pre class="highlight shell"><code>
+<span class="s2">POST examples:</span>
+
+"&lt;ContentItem source=<span class="red">'AUX'</span> sourceAccount=<span class="red">'AUX'</span>&gt;&lt;ContentItem&gt;"
+
+<span class="s2">OR</span>
+
+"&lt;ContentItem source=<span class="red">'AUX'</span> sourceAccount=<span class="red">'AUX3'</span>&gt;&lt;ContentItem&gt;"
+
+<span class="s2">OR</span>
+
+"&lt;ContentItem source=<span class="red">'BLUETOOTH'</span>&gt;&lt;ContentItem&gt;"
+</code></pre>
+
+<p><span class="callout">POST</span></p>
+<p>Use this <a href="#select">/select</a> API to select AUX or Bluetooth sources when available. Sources available via this API will vary based upon product.</p>
+<p>Use the <a href="#sources">/sources</a> API to view the availability for your target device.</p>
+
+
+
+
+
+
+
+
+
+<h2 id="sources">/sources</h2>
+
+<pre class="highlight shell"><code>
+<span class="s2">GET return payload example:</span>
+
+&lt;sources deviceId=<span class="red">"$MACADDR"</span>&gt;
+    &lt;sourceItem source=<span class="red">"$SOURCE"</span> sourceAccount=<span class="red">"$STRING"</span>
+        status=<span class="red">"$SOURCE_STATUS"</span>&gt;<span class="red">$STRING</span>&lt;/sourceItem&gt;
+    ...
+&lt/sources&gt;
+
+<span class="s2">Example jQuery of GET:</span>
+
+function getSourcesList() {
+    var baseURL = "http://" + IP_ADDRESS_OF_SPEAKER + ":8090";
+    var getURL = baseURL + "/presets";
+    $.get(getURL, {})
+    .done(function(xml){
+    	var stationNames = [];
+    	$(xml).find('preset').each(function(index){
+    		var presetName = $(this).find('itemName').text();
+    		if (presetName == ""){
+    			presetName = "(empty)";
+    		}
+    		stationNames.push( (index + 1) + ". " + presetName);
+    	}
+    	var message = "Your current presets are:&lt;br/&gt;";
+    	for(var i=0; i &lt; stationNames.length; i++) {
+    		if (i != stationNames.length - 1) {
+    			message = message + stationNames[i] + "&lt;br/&gt;";
+    		} else {
+    			message = message + stationNames[i];
+    		}
+    	}
+    	displayResponse(message);
+    });
+}
+</code></pre>
+<p><span class="callout">GET</span></p>
+<p><code class="prettyprint">GET http://IP_ADDRESS:8090/sources</code></p>
+<p>Get a list of all available content sources. Parse the return XML.</p>
+<p>Use this <a href="#select">/select</a> API to select AUX or Bluetooth sources when available. Sources available via this API will vary based upon product.</p>
+<p>Use the <a href="#sources">/sources</a> API to view the availability for your target device.</p>
+
+
+
+
+
+
+<h2 id="bass-capabilities">/bassCapabilities</h2>
+<pre class="highlight shell"><code>
+<span class="s2">GET return payload example:</span>
+
+&lt;bassCapabilities deviceId=<span class="red">"$MACADDR"</span>&gt;
+    &lt;bassAvailable&gt;<span class="red">$BOOL</span>&lt;/bassAvailable&gt;
+    &lt;bassMin&gt;<span class="red">$INT</span>&lt;/bassMin&gt;
+    &lt;bassMax&gt;<span class="red">$INT</span>&lt;/bassMax&gt;
+    &lt;bassDefault&gt;<span class="red">$INT</span>&lt;/bassDefault&gt;
+&lt/bassCapabilities&gt;
+
+<span class="s2">Example jQuery:</span>
+
+function bassAvailable() {
+    var baseURL = "http://" + <span class="red">IP_ADDRESS_OF_SPEAKER</span> + ":8090";
+    var getURL = baseURL + <span class="red">"/bassCapabilities"</span>;
+    $.get(getURL, {})
+    .done(function(xml){
+    	var bassAvailable = $(xml).find("bassAvailable").text();
+    	console.log("Bass available? " + bassAvailable);
+    });
+}
+</code></pre>
+<p><span class="callout">GET</span></p>
+<p><code class="prettyprint">GET http://IP_ADDRESS:8090/bassCapabilities</code></p>
+<p>Some speakers do not support the ability to customize their bass levels. Use this to find out whether or not bass customization is supported for your target speaker</p>
+
+
+
+
+
+<h2 id="bass">/bass</h2>
+<pre class="highlight shell"><code>
+<span class="s2">GET return payload example:</span>
+
+&lt;bass deviceId=<span class="red">"$MACADDR"</span>&gt;
+    &lt;targetbass&gt;<span class="red">$INT</span>&lt;/targetbass&gt;
+    &lt;actualbass&gt;<span class="red">$INT</span>&lt;/actualbass&gt;
+&lt/bass&gt;
+
+<span class="s2">POST data example:</span>
+
+"&lt;bass&gt;<span class="red">$INT</span>&lt;/bass&gt;"
+
+<span class="s2">Example jQuery of GET:</span>
+
+function getBass() {
+    var baseURL = "http://" + <span class="red">IP_ADDRESS_OF_SPEAKER</span> + ":8090";
+    var getURL = baseURL + <span class="red">"/bass"</span>;
+    $.get(getURL, {})
+    .done(function(xml){
+    	var actualBass = $(xml).find("actualbass").first().text();
+    	console.log("Actual bass: " + actualBass);
+    });
+}
+
+<span class="s2">Example jQuery POST:</span>
+
+function setBassLevel(bassValue) {
+    var baseURL = "http://" + <span class="red">IP_ADDRESS_OF_SPEAKER</span> + ":8090";
+    var postURL = baseURL + <span class="red">"/bass"</span>;
+    var data = <span class="red">"&lt;bass&gt;" + bassValue + "&lt;/bass&gt;";</span>
+    $.ajax({
+    	url: postURL + "/bass",
+    	type: "POST",
+    	crossDomain: true,
+    	data: data,
+    	dataType: "text",
+    	success: function(result){
+    		//Bass was set.
+    	}, 
+    	error: function(jqXHR, transStatus, errorThrown){
+    		alert("Status " + jqXHR.status + " " + jqXHR.statusText + ". " + 
+    			"Response " + jqXHR.responseText);
+    	}
+    });
+}
+</code></pre>
+<p><span class="callout">GET</span> <span class="callout">POST</span></p>
+<p><code class="prettyprint">GET http://IP_ADDRESS:8090/bass</code></p>
+
+<p>Get or set the current bass setting for a targeted speaker. This may or may not be a supported capability of the speaker.</p>
+<p>Use <a href="#bass-capabilities">/bassCapabilities</a> to determine whether or not the speaker supports bass configuration. <strong>What are the acceptable values? 1-10?</strong></p>
+<aside class="success">
+Remember — a happy user might be slathered in bass!
+</aside>
+
+
+
+<!-- GETZONE -->
+
+<h2 id="get-zone">/getZone</h2>
+<pre class="highlight shell"><code>
+<span class="s2">GET return payload example:</span>
+
+&lt;zone master=<span class="red">"$MACADDR"</span>&gt;
+    &lt;member ipaddress=<span class="red">"$MASTER_IPADDR"</span>&gt;$MASTER_MACADDR&lt;/member&gt;
+	&lt;member ipaddress=<span class="red">"$SLAVE1_IPADDR"</span>&gt;$SLAVE1_MACADDR&lt;/member&gt;
+&lt/zone&gt;
+</code></pre>
+<p><span class="callout">GET</span></p>
+<p><code class="prettyprint">GET http://IP_ADDRESS:8090/getZone</code></p>
+<p>Determine the current state of the multi-room zone from a particular device. The MAC addresses are reported as strings.</p>
+
+<!-- SETZONE -->
+
+<h2 id="set-zone">/setZone</h2>
+<pre class="highlight shell"><code>
+<span class="s2">POST payload as a string:</span>
+
+&lt;zone master=<span class="red">"$MACADDR"</span>&gt;
+    &lt;member ipaddress=<span class="red">"$IPADDR"</span>&gt;$MACADDR&lt;/member&gt;
+	...
+&lt/zone&gt;
+</code></pre>
+<p><span class="callout">POST</span></p>
+<p><code class="prettyprint">POST http://IP_ADDRESS:8090/setZone</code></p>
+<p>Would you like to create a multi-room zone? This is the API that you'll want to use. You will need the MAC address of the master and the IP address of each speaker to join.</p>
+
+<!-- ADDZONESLAVE -->
+
+<h2 id="add-zone-slave">/addZoneSlave</h2>
+<pre class="highlight shell"><code>
+<span class="s2">POST payload as a string:</span>
+
+&lt;zone master=<span class="red">"$MACADDR"</span>&gt;
+    &lt;member ipaddress=<span class="red">"$IPADDR"</span>&gt;$MACADDR&lt;/member&gt;
+	...
+&lt/zone&gt;
+</code></pre>
+<p><span class="callout">POST</span></p>
+<p><code class="prettyprint">POST http://IP_ADDRESS:8090/addZoneSlave</code></p>
+<p>Add a slave speaker to a "play everywhere" zone that has already been established.</p>
+
+<!-- REMOVEZONESLAVE -->
+
+<h2 id="remove-zone-slave">/removeZoneSlave</h2>
+<pre class="highlight shell"><code>
+<span class="s2">POST payload as a string:</span>
+
+&lt;zone master=<span class="red">"$MACADDR"</span>&gt;
+    &lt;member ipaddress=<span class="red">"$IPADDR"</span>&gt;$MACADDR&lt;/member&gt;
+	...
+&lt/zone&gt;
+</code></pre>
+<p><span class="callout">POST</span></p>
+<p><code class="prettyprint">POST http://IP_ADDRESS:8090/removeZoneSlave</code></p>
+<p>Remove a slave speaker from a "play everywhere" zone that has already been established.</p>
+
+<!-- NOWPLAYING -->
+
+<h2 id="now-playing">/now_playing</h2>
+<pre class="highlight shell"><code>
+<span class="s2">GET return payload example:</span>
+
+&lt;nowPlaying deviceId=<span class="red">"$MACADDR"</span> source=<span class="red">"$SOURCE"</span>&gt;
+    &lt;ContentItem source=&gt;<span class="red">"$SOURCE"</span> location=<span class="red">"$STRING"</span>
+    	sourceAccount=<span class="red">"$STRING"</span> isPresentable=<span class="red">"$BOOL"</span>&gt;
+    	&lt;itemName&gt;<span class="red">$STRING</span>&lt;/itemName&gt;
+    &lt;/ContentItem&gt;
+    &lt;track&gt;<span class="red">$STRING</span>&lt;/track&gt;
+    &lt;artist&gt;<span class="red">$STRING</span>&lt;/artist&gt;
+    &lt;album&gt;<span class="red">$STRING</span>&lt;/album&gt;
+    &lt;stationName&gt;<span class="red">$STRING</span>&lt;/stationName&gt;
+    &lt;art artImageStatus=<span class="red">"$ART_STATUS"</span>&gt;<span class="red">$URL</span>&lt;/art&gt;
+    &lt;playStatus&gt;<span class="red">$PLAY_STATUS</span>&lt;/playStatus&gt;
+    &lt;description&gt;<span class="red">$STRING</span>&lt;/description&gt;
+    &lt;stationLocation&gt;<span class="red">$STRING</span>&lt;/stationLocation&gt;
+&lt/nowPlaying&gt;
+
+</code></pre>
+<p><span class="callout">GET</span></p>
+<p><code class="prettyprint">GET http://IP_ADDRESS:8090/now_playing</code></p>
+<p>Get all of the information about the currently playing media on the target speaker. Not all of the details will be populated, based upon the source type that is playing. For instance, INTERNET_RADIO might not have any artist, album, or track information.</p>
+<p><ul>
+	<li>Track</li>
+	<li>Artist</li>
+	<li>Album</li>
+	<li>Station Name</li>
+	<li>Art Image URL</li>
+	<li>Play Status</li>
+	<li>Description</li>
+	<li>Station Location</li>
+	<li>Source</li>
+</ul></p>
+
+<!-- TRACKINFO -->
+
+<h2 id="trackinfo">/trackInfo</h2>
+<pre class="highlight shell"><code>
+<span class="s2">GET return payload example:</span>
+
+&lt;nowPlaying deviceId=<span class="red">"$MACADDR"</span> source=<span class="red">"$SOURCE"</span>&gt;
+    &lt;ContentItem source=&gt;<span class="red">"$SOURCE"</span> location=<span class="red">"$STRING"</span>
+    	sourceAccount=<span class="red">"$STRING"</span> isPresentable=<span class="red">"$BOOL"</span>&gt;
+    	&lt;itemName&gt;<span class="red">$STRING</span>&lt;/itemName&gt;
+    &lt;/ContentItem&gt;
+    &lt;track&gt;<span class="red">$STRING</span>&lt;/track&gt;
+    &lt;artist&gt;<span class="red">$STRING</span>&lt;/artist&gt;
+    &lt;album&gt;<span class="red">$STRING</span>&lt;/album&gt;
+    &lt;stationName&gt;<span class="red">$STRING</span>&lt;/stationName&gt;
+    &lt;art artImageStatus=<span class="red">"$ART_STATUS"</span>&gt;<span class="red">$URL</span>&lt;/art&gt;
+    &lt;playStatus&gt;<span class="red">$PLAY_STATUS</span>&lt;/playStatus&gt;
+    &lt;description&gt;<span class="red">$STRING</span>&lt;/description&gt;
+    &lt;stationLocation&gt;<span class="red">$STRING</span>&lt;/stationLocation&gt;
+&lt/nowPlaying&gt;
+
+</code></pre>
+<p><span class="callout">GET</span></p>
+<p><code class="prettyprint">GET http://IP_ADDRESS:8090/trackInfo</code></p>
+
+<!-- VOLUME -->
+
+<h2 id="volume">/volume</h2>
+<pre class="highlight shell"><code>
+<span class="s2">GET return payload example:</span>
+
+&lt;volume deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;targetvolume&gt;<span class="red">$INT</span>&lt;/targetvolume&gt;
+    &lt;actualvolume&gt;<span class="red">$INT</span>&lt;/actualvolume&gt;
+    &lt;mutreenabled&gt;<span class="red">$BOOL</span>&lt;/muteenabled&gt;
+&lt/volume&gt;
+
+<span class="s2">POST payload example:</span>
+
+"&lt;volume&gt;<span class="red">$INT</span>&lt;/volume&gt;"
+</code></pre>
+<p><span class="callout">GET</span> <span class="callout">POST</span></p>
+<p><code class="prettyprint">GET http://IP_ADDRESS:8090/volume</code></p>
+<p>Get or set the volume for the targeted speaker. Volume ranges are 0-100, inclusive.</p><p>You can also get the MUTE status with this API.</p>
+
+<!-- PRESETS -->
+
+<h2 id="presets">/presets</h2>
+<pre class="highlight shell"><code>
+<span class="s2">GET return payload example:</span>
+
+&lt;presets&gt;
+    &lt;preset id=<span class="red">"$PRESET_ID"</span> createdOn=<span class="red">"$UINT64"</span> updateOn=<span class="red">"$UINT64"</span>&gt;
+       &lt;ContentItem source=<span class="red">"$SOURCE"</span> location=<span class="red">"$STRING"</span>
+           sourceAccount=<span class="red">"$STRING"</span> isPresentable=<span class="red">"$BOOL"</span>&gt;
+           &lt;itemName&gt;<span class="red">$STRING</span>&lt;/itemName&gt;
+       &lt;/ContentItem&gt;
+    ...
+&lt;/presets&gt;
+
+<span class="s2">Example jQuery to retrieve presets:</span>
+
+function listThePresets(){
+    var baseURL = "http://" + <span class="red">IP_ADDRESS_OF_SPEAKER</span> + ":8090";
+    var getURL = baseURL + <span class="red">"/presets"</span>;
+    $.get(getURL), {})
+    .done(function(xml){
+    	var stations = [];
+    	$(xml).find("preset").each(function(index){
+    		var presetName = $(this).find("itemName").text();
+    		if (presetName == ""){
+    			presetName = "(empty)";
+    		}
+    		stationNames.push( (index + 1) + ". " + presetName);
+    	});
+    	var message = "Your current presets are:&lt;br/&gt;";
+    	for (var i=0; i &gt; stationNames.length; i++) {
+    		if (i != stationNames.length - 1) {
+    			message = message + stationNames[i] + "&lt;br/&gt;";
+    		} else {
+    			message = message + stationNames[i];
+    		}
+    	}
+    	displayResponse(message);
+    });
+}
+</code></pre>
+<p><span class="callout">GET</span></p>
+<p><code class="prettyprint">GET http://IP_ADDRESS:8090/presets</code></p>
+<p>Presets are a core part of the SoundTouch ecosystem. A preset is used to set and recall a specific music stream supported by the SoundTouch speaker. Get a list of the current presets.</p>
+
+<!-- INFO -->
+
+<h2 id="info">/info</h2>
+<pre class="highlight shell"><code>
+<span class="s2">GET return payload example:</span>
+
+&lt;info deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;name&gt;<span class="red">$STRING</span>&lt;/name&gt;
+    &lt;type&gt;<span class="red">$STRING</span>&lt;/type&gt;
+    &lt;margeAccountUUID&gt;<span class="red">$STRING</span>&lt;/margeAccountUUID&gt;
+    &lt;components&gt;
+        &lt;component&gt;
+            &lt;componentCategory&gt;<span class="red">$STRING</span>&lt;/componentCategory&gt;
+            &lt;softwareVersion&gt;<span class="red">$STRING</span>&lt;/softwareVersion&gt;
+            &lt;serialNumber&gt;<span class="red">$STRING</span>&lt;/serialNumber&gt;
+        &lt;/component&gt;
+        ...
+    &lt;/conmponents&gt;
+    &lt;margeURL&gt;<span class="red">$URL</span>&lt;/margeURL&gt;
+    &lt;networkInfo type=<span class="red">"$STRING"</span>&gt;
+        &lt;macAddress&gt;<span class="red">$MACADDR</span>&lt;/macAddress&gt;
+        &lt;ipAddress&gt;<span class="red">$IPADDR</span>&lt;/ipAddress&gt;
+    &lt;/networkInfo&gt;
+    ...
+&lt;/info&gt;
+</code></pre>
+<p><span class="callout">GET</span></p>
+<p><code class="prettyprint">GET http://IP_ADDRESS:8090/info</code></p>
+<p>Get the targeted device information; most likely static device information such as:
+<ul>
+<li>deviceID</li>
+<li>type</li>
+<li>IP address (per component if applicable)</li>
+<li>cloud account ID</li>
+<li>software version</li>
+</li>product version</li>
+<li>component type and version.</li>
+</ul>
+</p>
+
+<!-- NAME -->
+
+<h2 id="name">/name</h2>
+<pre class="highlight shell"><code>
+<span class="s2">POST payload example:</span>
+
+"&lt;name&gt;<span class="red">$STRING</span>&lt;/name&gt;"
+</code></pre>
+<p><span class="callout">POST</span></p>
+<p><code class="prettyprint">POST http://IP_ADDRESS:8090/name</code></p>
+<p>If you provide a user interface to give the user the ability to change the "friendly name" of the speaker, this is the API that you would want to use. This allows the renaming of the speaker to something that makes sense to the user.</p>
+<p>For example you could could rename the speaker to "Kitchen" or "Amy's Room".</p>
+
+
+
+
+
+
+
+<h1 id="websockets-api">⊞ WebSockets API</h1>
+<pre class="highlight shell"><code>
+<span class="s2">HTTP PORT</span>
+:8060
+
+<span class="s2">Single update example</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&lt;
+&lt;/upodates&gt;
+
+<span class="s2">Example jQuery to create, listen to and report errors:</span>
+
+$(window).load(function() {
+    var webSocket = new WebSocket("ws://" + ip + ":8080" , "gabbo");
+    
+    webSocket.onerror = function(event) {
+        console.log("Error: " + event);
+    }
+    
+    webSocket.onmessage = function(event) {	
+        var xml = event.data;
+        console.log("Message: " + xml);
+    }
+}
+</code></pre>
+<p>Notifications are server initiated WebSocket messages which inform client(s) of changes in a SoundTouch device. They serve to keep clients in sync with the server that exists in each supported SoundTouch product. They are sent over HTTP on port 8060 via a WebSocket connection which is initiated from a WebSocket client.</p>
+<p>The WebSocket connection offers an advantage over HTTP because it allows for bi-directional communication, which allows for asynchronous notifications to be initiated from the server side (SoundTouch device) to the client connection.</p>
+<h3>WebSocket Asynchronous Notifications</h3>
+<p>After a successful WebSocket connection has been established, the most simple thing a client can do is to listen for the asynchronous notifications that are published by the SoundTouch device.</p>
+<p>The incomplete example shows examples of a single update notification describing what changed on the SoundTouch device. This will help inform the client, if it is interested, to perform a new request for the updated values. In some cases the notification does not contain the changed information, but for convenience, in other cases it may. You’ll notice that you can get quite a few notifications in short order.</p>
+<p>When creating a client WebSocket connection, <strong>be sure to specify the protocol as “gabbo”</strong>. Here is a Javascript example:</p>
+<p><code class="prettyprint">var socket = new WebSocket(“ws://“ + $IPADDR + “:8060”, “gabbo”);</code></p>
+
+<!-- PresetsChangedNotifyUI -->
+
+<h2 id="presets-changed-notify-ui">⤷ PresetsChangedNotifyUI</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;presetsUpdated&gt;
+        &lt;presets&gt;
+            &lt;preset id=<span class="red">"$INT"</span>&gt;
+                &lt;ContentItem source=<span class="red">"$SOURCE"</span> location=<span class="red">"$STRING"</span> 
+                    sourceAccount=<span class="red">"$STRING"</span> isPresentable=<span class="red">"$BOOL"</span>&gt;
+                        &lt;itemName&gt;<span class="red">$STRING</span>&lt;/itemName&gt;
+                &lt;/ContentItem&gt;
+            &lt;/preset&gt;
+            ...
+        &lt;/presets&gt;
+    &lt;/presetsUpdated&gt;
+&lt;/updates&gt;
+</code></pre>
+
+<p>When a preset is changed in any way (i.e. added, cleared, or modified), the SoundTouch speaker will send this asynchronous notification. This is a signal for the WS API client to request the new list of presets via the <a href="#presets">/presets</a> GET API.</p>
+
+<!-- RecentsChangedNotifyUI -->
+
+<h2 id="recents-changed-notify-ui">⤷ RecentsChangedNotifyUI</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;recentsUpdated&gt;
+        &lt;recents&gt;
+            &lt;recent deviceID=<span class="red">"$MACADDR"</span> utcTime=<span class="red">"$UINT64"</span>&gt;
+                &lt;ContentItem source=<span class="red">"$SOURCE"</span> location=<span class="red">"$STRING"</span> 
+                    sourceAccount=<span class="red">"$STRING"</span> isPresentable=<span class="red">"$BOOL"</span>&gt;
+                        &lt;itemName&gt;<span class="red">$STRING</span>&lt;/itemName&gt;
+                &lt;/ContentItem&gt;
+            &lt;/recent&gt;
+            ...
+        &lt;/recents&gt;
+    &lt;/recentsUpdated&gt;
+&lt;/updates&gt;
+</code></pre>
+
+<p>When the recents list is changed in any way (i.e. a recent is added, removed, or moved within the list), the SoundTouch speaker will send this asynchronous notification. This is a signal for the WS API client to request the new list of recents via the /recents API.</p><p><strong>THIS IS NOT IN THIS DOCUMENT</strong>.</p>
+
+<!-- AcctModeChangedNotifyUI -->
+
+<h2 id="acct-mode-changed-notify-ui">⤷ AcctModeChangedNotifyUI</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;accountModeUpdated /&gt;
+&lt;/updates&gt;
+</code></pre>
+
+<p>The the SoundTouch speaker's association with a cloud account changes, then this asynchronous notification will be sent.</p>
+
+<!-- ErrorNotification -->
+
+<h2 id="error-notification">⤷ ErrorNotification</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+ErrorNotification
+</code></pre>
+
+<p>I have no information on this API. The payload looks curiously incomplete.</p>
+
+<!-- NOWPLAYINGCHANGE -->
+
+<h2 id="now-playing-change">⤷ NowPlayingChange</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;nowPlayingUpdated&gt;
+        &lt;nowPlaying deviceID=<span class="red">"$MACADDR"</span> source=<span class="red">"$SOURCE"</span>&lt;
+            &lt;ContentItem source=<span class="red">"$SOURCE"</span> location=<span class="red">"$STRING"</span>
+                sourceAccount=<span class="red">"$STRING"</span> isPresentable=<span class="red">"$BOOL"</span>&gt;
+                &lt;itemName&gt;<span class="red">$STRING</span>&lt;/itemName&gt;
+            &lt;/ContentItem&gt;
+            &lt;track&gt;<span class="red">$STRING</span>&lt;/track&gt;
+            &lt;artist&gt;<span class="red">$STRING</span>&lt;/artist&gt;
+            &lt;album&gt;<span class="red">$STRING</span>&lt;/album&gt;
+            &lt;stationName&gt;<span class="red">$STRING</span>&lt;/stationName&gt;
+            &lt;art artImageStatus=<span class="red">"$ART_STATUS"</span>&gt;<span class="red">$URL</span>&lt;/art&gt;
+            &lt;playStatus&gt;<span class="red">$PLAY_STATUS</span>&lt;/playStatus&gt;
+            &lt;description&gt;<span class="red">$STRING</span>&lt;/description&gt;
+            &lt;stationLocation&gt;<span class="red">$STRING</span>&lt;/stationLocation&gt;
+        &lt;/nowPlaying&gt;
+    &lt;nowPlayingUpdated&gt;
+&lt;/updates&gt;
+</code></pre>
+
+<p>Any time a new item is played, a <code class="prettyprint">NowPlayingChange</code> notification is sent asynchronously from the speaker. This is useful in keeping album artwork, artist name, track name, album name, etc. in sync within a client user interface.</p>
+<p>This notification often comes multiple times from the speaker for a single change, so if you are only interested in a one-time UI update (for say in a chat setting), you'll have to keep an old copy of an original part of the notification (i.e. track name) in a variable to check against.</p>
+
+<!-- VolumeChange -->
+
+<h2 id="volume-change">⤷ VolumeChange</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;volumeUpdated /&gt;
+&lt;/updates&gt;
+</code></pre>
+<p>When the volume is changed on the speaker, this notification is sent asynchronously. You could then follow up with a <a href="#volume">/volume</a> call to get the current value and present it in a user interface.</p>
+
+<!-- BassChange -->
+
+<h2 id="bass-change">⤷ BassChange</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;bassUpdated /&gt;
+&lt;/updates&gt;
+</code></pre>
+<p>When the bass is changed on the speaker, this notification is sent asynchronously. You could then follow up with a <a href="#bass">/bass</a> call to get the current value.</p>
+
+<!-- ZoneMapChange -->
+
+<h2 id="zone-map-change">⤷ ZoneMapChange</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;zoneUpdated /&gt;
+&lt;/updates&gt;
+
+<span class="s2">When a slave device joins a zone:</span>
+
+&lt;updates deviceID=<span class="red">"slave $MACADDR"</span>&gt;
+    &lt;zoneUpdated /&gt;
+&lt;/updates&gt;
+&lt;updates deviceID=<span class="red">"slave $MACADDR"</span>&gt;
+    &lt;zoneUpdated /&gt;
+&lt;/updates&gt;
+&lt;updates deviceID=<span class="red">"slave $MACADDR"</span>&gt;
+    &lt;nowPlayingUpdated /&gt;
+&lt;/updates&gt;
+
+<span class="s2">When a slave device leaves a zone:</span>
+
+&lt;updates deviceID=<span class="red">"slave $MACADDR"</span>&gt;
+    &lt;zoneUpdated /&gt;
+&lt;/updates&gt;
+&lt;updates deviceID=<span class="red">"slave $MACADDR"</span>&gt;
+    &lt;nowPlayingUpdated /&gt;
+&lt;/updates&gt;
+
+<span class="s2">When a master notifies when a slave device joins its zone:</span>
+
+&lt;updates deviceID=<span class="red">"slave $MACADDR"</span>&gt;
+    &lt;zoneUpdated /&gt;
+&lt;/updates&gt;
+&lt;updates deviceID=<span class="red">"slave $MACADDR"</span>&gt;
+    &lt;nowPlayingUpdated /&gt;
+&lt;/updates&gt;
+
+<span class="s2">When a master notifies when a slave device leaves its zone:</span>
+
+&lt;updates deviceID=<span class="red">"slave $MACADDR"</span>&gt;
+    &lt;zoneUpdated /&gt;
+&lt;/updates&gt;
+&lt;updates deviceID=<span class="red">"slave $MACADDR"</span>&gt;
+    &lt;nowPlayingUpdated /&gt;
+&lt;/updates&gt;
+</code></pre>
+<p>When the zone mapping changes, this notification is sent asynchronously. <strong>ARE THESE ACCURATE?</strong></p>
+
+<!-- SWUpdateStatusChange -->
+
+<h2 id="sw-updte-status-change">⤷ SWUpdateStatusChange</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;swUpdateStatusUpdated /&gt;
+&lt;/updates&gt;
+</code></pre>
+<p>While this notification can be received from the speaker, it is not important and there is no need to take any action after it is received.</p>
+
+<!-- SiteSurveyResultsChange -->
+
+<h2 id="site-survey-results-change">⤷ SiteSurveyResultsChange</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;siteSurveyResultsUpdated /&gt;
+&lt;/updates&gt;
+</code></pre>
+<p>While this notification can be received from the speaker, it is not important and there is no need to take any action after it is received.</p>
+
+<!-- SourcesChanged -->
+
+<h2 id="sources-changed">⤷ SourcesChanged</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;sourcesUpdated /&gt;
+&lt;/updates&gt;
+</code></pre>
+<p>This notification is sent when any sources for the speaker change. You may wish to follow this notification up with a <a href="#sources">/sources</a> API call to update any user interface.</p>
+
+<!-- NowSelectionChange -->
+
+<h2 id="now-selection-change">⤷ NowSelectionChange</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;nowSelectionUpdated&gt;
+        &lt;preset id=<span class="red">"$INT"</span>&gt;
+            &lt;ContentItem source=<span class="red">"$SOURCE"</span> location=<span class="red">"$STRING"</span>
+                sourceAccount=<span class="red">"$STRING"</span> isPresentable=<span class="red">"$BOOL"</span>&gt;
+                &lt;itemName&gt;<span class="red">$STRING</span>&lt;/itemName&gt;
+            &lt;/ContentItem&gt;
+        &lt;/preset&gt;
+    &lt;/nowSelectionUpdated&gt;
+&lt;/updates&gt;
+</code></pre>
+<p><strong>I do not have a description for this notification.</strong></p>
+
+<!-- NetworkConnectionStatus -->
+
+<h2 id="network-connection-status">⤷ NetworkConnectionStatus</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;networkConnectionStatus /&gt;
+&lt;/updates&gt;
+</code></pre>
+<p>Whenever there is a change in connection status, the speaker will send this asynchronous notification.</p>
+
+<!-- InfoChange -->
+
+<h2 id="info-change">⤷ InfoChange</h2>
+<pre class="highlight shell"><code>
+<span class="s2">Message Payload:</span>
+
+&lt;updates deviceID=<span class="red">"$MACADDR"</span>&gt;
+    &lt;infoUpdated /&gt;
+&lt;/updates&gt;
+</code></pre>
+<p>Whenever information about the speaker changes (i.e. the device name has been changed, the software version has been changed, etc.) this notification will be sent.</p>
+
+
+
+
+
+
+<h1 id="acronyms-definitions">Acronyms and Definitions</h1>
+
+<table><thead>
+<tr>
+<th>Acronym</th>
+<th>Expanded Term</th>
+<th>Definition</th>
+</tr>
+</thead><tbody>
+
+<tr>
+<td>API</td>
+<td>Application Programming Interface</td>
+<td>A definition for how to interact with and use a software component</td>
+</tr>
+
+<tr>
+<td>REST</td>
+<td>Representational State Transfer</td>
+<td>A common type of web service API that is modeled around resources</td>
+</tr>
+
+<tr>
+<td>WS API</td>
+<td>Webservices API</td>
+<td>An API made available by a web server</td>
+</tr>
+
+<tr>
+<td>SSDP</td>
+<td>Simple Services Discovery Protocol</td>
+<td>A discovery protocol that uses unicast and multicast over UDP</td>
+</tr>
+
+<tr>
+<td>MDNS</td>
+<td>Multicast Domain Name System</td>
+<td>A type of discovery protocol that requires zero configuration</td>
+</tr>
+
+<tr>
+<td></td>
+<td>Bonjour</td>
+<td>Apple Inc.’s implementation of MDNS</td>
+</tr>
+
+<tr>
+<td>UDP</td>
+<td>User Datagram Protocol</td>
+<td>A transport layer protocol defined for use with the IP Network layer protocol.</td>
+</tr>
+
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+<h1 id="general-status-errors">General Status and Errors</h1>
+<pre class="highlight shell"><code>
+<span class="s2">For calls that do not have a special return payload, the default response is:</span>
+
+&lt;status&gt;<span class="red">$STRING</span>&lt;/status&gt;
+
+<span class="s2">For calls that can produce errors, the error response is:</span>
+
+&lt;errors deviceID=<span class="red">"$STRING"</span>&gt;
+    &lt;error value=<span class="red">"$INT"</span> name=<span class="red">"$STRING"</span> severity=<span class="red">"$STRING"</span>&gt;<span class="red">$STRING</span>&lt;/error&gt;
+    ...
+&lt;/errors&gt;
+</code></pre>
+
+<aside class="notice">Every now and then you may encounter errors when using the SoundTouch APIs. You'll need help debugging your code or know if there may be hardware issues.</aside>
+
+<p>Here are additional HTTP error codes you may encounter.</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request &ndash; Your request failed. Bad request.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized &ndash; Your API key is wrong</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden &ndash; The kitten requested is hidden for administrators only</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found &ndash; The specified kitten could not be found</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed &ndash; You tried to access a kitten with an invalid method</td>
+</tr>
+<tr>
+<td>406</td>
+<td>Not Acceptable &ndash; You requested a format that isn&rsquo;t json</td>
+</tr>
+<tr>
+<td>410</td>
+<td>Gone &ndash; The kitten requested has been removed from our servers</td>
+</tr>
+<tr>
+<td>418</td>
+<td>I&rsquo;m a teapot</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests &ndash; You&rsquo;re requesting too many kittens! Slow down!</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error &ndash; We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable &ndash; We&rsquo;re temporarially offline for maintanance. Please try again later.</td>
+</tr>
+</tbody></table>
+
+
+<h1 id="contact-info">Contact Info/Legal</h1>
+<p>For any questions, comments, or suggestions for improvements please email us at SoundTouchAPI@bose.com</p>
+
+<p>Use of this API material is subject to the API License Agreement, which can be found at <a href="http://developers.bose.com/SoundTouch-API-License">developers.bose.com/SoundTouch-API-License</a></p>
+
+<div style="height: 900px;">&nbsp;</div>
+
+
+      </div>
+      
+      <div class="dark-box">
+          <div class="lang-selector">
+          		<!--
+          		<a href="#" data-language-name="javascript">javascript</a>
+                <a href="#" data-language-name="shell">shell</a>
+                <a href="#" data-language-name="ruby">ruby</a>
+                <a href="#" data-language-name="python">python</a>
+                -->
+                
+          </div>
+      </div>
+      
+    </div>
+  </body>
+</html>
+
